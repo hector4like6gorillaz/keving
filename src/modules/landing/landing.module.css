@@ -1,0 +1,127 @@
+.grilla-responsive {
+  border: 1px solid;
+  display: grid;
+}
+
+.div-1 {
+  background: red;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.p-ejemplo {
+  padding: 0;
+  margin: 0;
+  background-color: green;
+  width: fit-content;
+  min-width: 30px;
+}
+
+.container-2 {
+  overflow-y: auto;
+  display: grid;
+  background: teal;
+  height: 100vh;
+}
+
+.p-p {
+  padding: 0;
+  margin: 0;
+  border: 1px solid;
+}
+.navbar {
+  background: red;
+  height: 100%;
+  width: 100%;
+  grid-area: pepitoDos;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content {
+  background: blue;
+  height: 100%;
+  width: 100%;
+  grid-area: cont;
+}
+.footer {
+  background: yellow;
+  height: 100%;
+  width: 100%;
+  grid-area: foot;
+}
+.left-menu {
+  background: green;
+  height: 100%;
+  width: 100%;
+  grid-area: lefts;
+}
+
+@media (max-width: 800px) {
+  .grilla-responsive {
+    row-gap: 6px;
+  }
+
+  .p-ejemplo {
+    font-size: 16px;
+  }
+  .container-2 {
+    grid-template-areas:
+      "pepitoDos pepitoDos "
+      "cont cont "
+      "cont cont  "
+      "cont cont  "
+      "cont cont  "
+      "cont cont  "
+      "lefts foot"
+      "lefts foot  ";
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1280px) {
+  .grilla-responsive {
+    grid-template-columns: 50%50%;
+    row-gap: 16px;
+  }
+  .p-ejemplo {
+    background-color: blue;
+    font-size: 20px;
+  }
+  .container-2 {
+    grid-template-areas:
+      "pepitoDos pepitoDos pepitoDos "
+      "lefts cont cont "
+      "lefts cont cont  "
+      "lefts cont cont  "
+      "lefts cont cont  "
+      "lefts cont cont  "
+      "lefts cont cont  "
+      "foot foot foot ";
+  }
+}
+
+@media (min-width: 1280px) {
+  .grilla-responsive {
+    grid-template-columns: 33%33%33%;
+    row-gap: 56px;
+  }
+
+  .p-ejemplo {
+    font-size: 30px;
+  }
+
+  .container-2 {
+    grid-template-areas:
+      "pepitoDos pepitoDos pepitoDos pepitoDos pepitoDos"
+      "lefts cont cont cont foot"
+      "lefts cont cont cont foot "
+      "lefts cont cont cont foot "
+      "lefts cont cont cont foot "
+      "lefts cont cont cont foot "
+      "lefts cont cont cont foot "
+      "lefts cont cont cont foot ";
+  }
+}

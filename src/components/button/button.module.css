@@ -1,0 +1,11 @@
+.body-button {
+  background: #ffffff;
+  border-radius: 8px;
+  border-color: grey;
+}
+.body-button:hover {
+  background: green;
+}
+.body-button:active {
+  background: red;
+}
