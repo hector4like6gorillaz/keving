@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import style from "./landing.module.css";
 import Button from "../../components/button/Button";
+import {
+  ResponseAPI,
+  getPokemonById,
+  getPosts,
+} from "../../services/callets-service";
+import NavBar from "../../components/navbar/NavBar";
 
 let menu = [
   "inicio",
@@ -15,17 +21,61 @@ let menu = [
 const LandingModule = () => {
   const [count, setcount] = useState(0);
   const [menuLabel, setmenuLabel] = useState(0);
+  const [sumatoria, setsumatoria] = useState(0);
+  const [pokemon, setpokemon] = useState<null | ResponseAPI>(null);
+  const [pokemonFijo, setpokemonFijo] = useState<null | ResponseAPI>(null);
 
   const aumentar = () => {
     setcount(count + 1);
   };
+
+  const suma = (num: number) => {
+    let sum = 0;
+    for (let i = 1; i <= num; i++) {
+      sum = sum + i;
+    }
+    return sum;
+  };
+
   const setLabels = () => {
     let max = menu.length - 1;
     if (menuLabel < max) setmenuLabel(menuLabel + 1);
     else setmenuLabel(0);
   };
 
-  console.log(menuLabel, menu.length);
+  useEffect(() => {
+    getPokemonById(150)
+      .then((data) => {
+        setpokemonFijo(data);
+      })
+      .catch((e) => console.log(e));
+  }, []);
+
+  useEffect(() => {
+    if (count > 0)
+      getPokemonById(count)
+        .then((data) => {
+          setpokemon(data);
+        })
+        .catch((e) => console.log(e));
+    /*
+    getPosts()
+      .then((data) => setpokemon(data))
+      .catch((e) => console.log(e))
+      .finally(() => {});
+  */
+  }, [count]);
+
+  const ejecutar = () => setsumatoria(suma(count));
+
+  useEffect(() => {
+    ejecutar();
+
+    return () => {
+      ejecutar();
+    };
+  }, [count]);
+
   return (
     <div className={`${style["container-2"]}`}>
       {/* <NavBar />*/}
@@ -65,6 +115,27 @@ const LandingModule = () => {
         <Button text="contador" onClick={aumentar} />
         <h1>valor: {count}</h1>
         <h1>etiqueta: {menu[menuLabel]}</h1>
+        <h1>sumatoria de valor: {sumatoria}</h1>
+        <div style={{ border: "2px solid" }}>
+          {pokemonFijo !== null && (
+            <>
+              <h1>{pokemonFijo.name} </h1>
+              <img src={pokemonFijo.sprites.front_default} />
+            </>
+          )}
+        </div>
+        {[1, 2, 3, 4, 5].map((item) => {
+          return (
+            <Fragment key={item}>
+              {pokemon !== null && (
+                <>
+                  <h1>{pokemon.name} </h1>
+                  <img src={pokemon.sprites.front_default} />
+                </>
+              )}
+            </Fragment>
+          );
+        })}
       </div>
       <div className={`${style["footer"]}`}></div>
       <div className={`${style["left-menu"]}`}></div>
