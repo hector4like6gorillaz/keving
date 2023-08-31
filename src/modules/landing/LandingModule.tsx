@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import style from "./landing.module.css";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/button/Button";
 import {
   ResponseAPI,
@@ -7,6 +8,11 @@ import {
   getPosts,
 } from "../../services/callets-service";
 import NavBar from "../../components/navbar/NavBar";
+import {
+  upperAllFirst,
+  upperAllWords,
+  upperFirtCharacter,
+} from "../../utilities/words-utilities";
 
 let menu = [
   "inicio",
@@ -24,6 +30,8 @@ const LandingModule = () => {
   const [sumatoria, setsumatoria] = useState(0);
   const [pokemon, setpokemon] = useState<null | ResponseAPI>(null);
   const [pokemonFijo, setpokemonFijo] = useState<null | ResponseAPI>(null);
+
+  const navigate = useNavigate();
 
   const aumentar = () => {
     setcount(count + 1);
@@ -76,6 +84,9 @@ const LandingModule = () => {
     };
   }, [count]);
 
+  let name = "hector";
+  let oracion = "anita lava la tina los jueves y sabados";
+
   return (
     <div className={`${style["container-2"]}`}>
       {/* <NavBar />*/}
@@ -113,6 +124,11 @@ const LandingModule = () => {
       <div className={`${style["content"]}`}>
         <Button text="cambiar label" onClick={setLabels} />
         <Button text="contador" onClick={aumentar} />
+
+        <h1> {oracion}</h1>
+        <h1> {upperAllFirst(oracion)} </h1>
+        <h1>forma 1: {upperAllWords(name)}</h1>
+        <h1>forma 1: {upperFirtCharacter(name)} </h1>
         <h1>valor: {count}</h1>
         <h1>etiqueta: {menu[menuLabel]}</h1>
         <h1>sumatoria de valor: {sumatoria}</h1>
@@ -124,18 +140,27 @@ const LandingModule = () => {
             </>
           )}
         </div>
-        {[1, 2, 3, 4, 5].map((item) => {
-          return (
-            <Fragment key={item}>
-              {pokemon !== null && (
-                <>
-                  <h1>{pokemon.name} </h1>
-                  <img src={pokemon.sprites.front_default} />
-                </>
-              )}
-            </Fragment>
-          );
-        })}
+        <div style={{ display: "flex" }}>
+          {[1, 2, 3, 4, 5].map((item) => {
+            return (
+              <Fragment key={item}>
+                {pokemon !== null && (
+                  <div
+                    style={{
+                      border: "2px solid",
+                      width: 200,
+                      cursor: "pointer",
+                    }}
+                    onClick={()=>navigate(`/pokemon-info/${pokemon.id}`)}
+                  >
+                    <h1>{pokemon.name} </h1>
+                    <img src={pokemon.sprites.front_default} />
+                  </div>
+                )}
+              </Fragment>
+            );
+          })}
+        </div>
       </div>
       <div className={`${style["footer"]}`}></div>
       <div className={`${style["left-menu"]}`}></div>
