@@ -30,6 +30,32 @@ const LandingModule = () => {
   const [sumatoria, setsumatoria] = useState(0);
   const [pokemon, setpokemon] = useState<null | ResponseAPI>(null);
   const [pokemonFijo, setpokemonFijo] = useState<null | ResponseAPI>(null);
+  const [userName, setuserName] = useState("");
+  const [formUser, setformUser] = useState({
+    name: "",
+    last: "",
+    email: "",
+    age: 0,
+  });
+
+  const handleForm = (text: string, who: number) => {
+    switch (who) {
+      case 1:
+        setformUser({ ...formUser, name: text });
+        break;
+      case 2:
+        setformUser({ ...formUser, last: text });
+        break;
+      case 3:
+        setformUser({ ...formUser, email: text });
+        break;
+      case 4:
+        setformUser({ ...formUser, age: parseInt(text) });
+        break;
+      default:
+        break;
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -37,6 +63,7 @@ const LandingModule = () => {
     setcount(count + 1);
   };
 
+  console.log({ ...formUser, name: "hector" });
   const suma = (num: number) => {
     let sum = 0;
     for (let i = 1; i <= num; i++) {
@@ -87,6 +114,21 @@ const LandingModule = () => {
   let name = "hector";
   let oracion = "anita lava la tina los jueves y sabados";
 
+  const ejemplo = (text: string) => {
+    //if (!text.includes("i")) setuserName(text);
+
+    setuserName(text);
+  };
+  /*
+  const valores = {
+    name: "hector",
+    last: "balan",
+    email: "hwctor@gmail.com",
+    age: 34,
+    role: "admin",
+  };
+*/
+
   return (
     <div className={`${style["container-2"]}`}>
       {/* <NavBar />*/}
@@ -124,7 +166,36 @@ const LandingModule = () => {
       <div className={`${style["content"]}`}>
         <Button text="cambiar label" onClick={setLabels} />
         <Button text="contador" onClick={aumentar} />
+        <div style={{ display: "flex", flexDirection: "column", rowGap: 5 }}>
+          <a
+            target="_blank"
+            href="https://www.google.com/search?q=html+modal&tbm=isch&ved=2ahUKEwiC6tn9lKaBAxXxLd4AHQAyDFEQ2-cCegQIABAA&oq=html+modal&gs_lcp=CgNpbWcQAzIFCAAQgAQyBAgAEB4yBggAEAgQHjIGCAAQCBAeMgYIABAIEB4yBggAEAgQHjIHCAAQGBCABDIHCAAQGBCABDIHCAAQGBCABDIHCAAQGBCABDoECCMQJzoICAAQCBAeEBNQqgtYwBJg_hNoAHAAeACAAWmIAekEkgEDMC42mAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=6esAZcLRCfHb-LYPgOSwiAU&bih=1317&biw=1718#imgrc=9q-DUmugEUwOEM"
+          >
+            a gogle
+          </a>
+          <input
+            onChange={(event) => handleForm(event.target.value, 1)}
+            value={formUser.name}
+            placeholder="nombre"
+          />
+          <input
+            onChange={(event) => handleForm(event.target.value, 2)}
+            value={formUser.last}
+            placeholder="apellido"
+          />
+          <input
+            onChange={(event) => handleForm(event.target.value, 3)}
+            value={formUser.email}
+            placeholder="correo"
+          />
+          <input
+            onChange={(event) => handleForm(event.target.value, 4)}
+            value={formUser.age}
+            placeholder="contraseña"
+          />
+        </div>
 
+        <h1> {upperAllFirst(userName)}</h1>
         <h1> {oracion}</h1>
         <h1> {upperAllFirst(oracion)} </h1>
         <h1>forma 1: {upperAllWords(name)}</h1>
@@ -151,7 +222,7 @@ const LandingModule = () => {
                       width: 200,
                       cursor: "pointer",
                     }}
-                    onClick={()=>navigate(`/pokemon-info/${pokemon.id}`)}
+                    onClick={() => navigate(`/pokemon-info/${pokemon.id}`)}
                   >
                     <h1>{pokemon.name} </h1>
                     <img src={pokemon.sprites.front_default} />
