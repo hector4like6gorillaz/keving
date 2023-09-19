@@ -13,6 +13,7 @@ import {
   upperAllWords,
   upperFirtCharacter,
 } from "../../utilities/words-utilities";
+import { getLoginLocal, loginLogout } from "../../utilities/session-utilitie";
 
 let menu = [
   "inicio",
@@ -37,7 +38,7 @@ const LandingModule = () => {
     email: "",
     age: 0,
   });
-
+  const [loged, setloged] = useState(false);
   const handleForm = (text: string, who: number) => {
     switch (who) {
       case 1:
@@ -194,6 +195,13 @@ const LandingModule = () => {
             placeholder="contraseña"
           />
         </div>
+        <Button
+          text="login"
+          onClick={() => {
+            loginLogout();
+            setloged(getLoginLocal()!.isAutenticated);
+          }}
+        />
 
         <h1> {upperAllFirst(userName)}</h1>
         <h1> {oracion}</h1>
@@ -232,6 +240,7 @@ const LandingModule = () => {
             );
           })}
         </div>
+        <h3>autenticado? :{loged ? "si" : "no"}</h3>
       </div>
       <div className={`${style["footer"]}`}></div>
       <div className={`${style["left-menu"]}`}></div>
