@@ -14,6 +14,7 @@ import {
   upperFirtCharacter,
 } from "../../utilities/words-utilities";
 import { getLoginLocal, loginLogout } from "../../utilities/session-utilitie";
+import LayoutHOC from "../../components/layoutHOC/LayoutHOC";
 
 let menu = [
   "inicio",
@@ -26,6 +27,8 @@ let menu = [
 ];
 
 const LandingModule = () => {
+  //const {apuesta,usuario,encuestas,grafica1,grafica2,handleForm,loadingForm}= useMyHook()
+
   const [count, setcount] = useState(0);
   const [menuLabel, setmenuLabel] = useState(0);
   const [sumatoria, setsumatoria] = useState(0);
@@ -79,12 +82,52 @@ const LandingModule = () => {
     else setmenuLabel(0);
   };
 
+  function resolveAfter2Seconds() {
+    //const waith= Math.random()
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve("resolved");
+      }, 2000);
+    });
+  }
+
+  async function asyncCall() {
+    const result = await resolveAfter2Seconds();
+    return result;
+  }
+  const handle = () => {
+    //
+    //
+    //
+    //
+    //
+  };
+
+  const sendData = () => {
+    //setLoading(true)
+
+    //service(12,sendData(),handlerror())
+
+    asyncCall(/* formData */).then((data) => {
+      //navigate()
+      //const {datodedata}=data
+      //servicio2(datodedata).th
+    });
+
+    //setLoading(false)
+  };
+
   useEffect(() => {
     getPokemonById(150)
       .then((data) => {
         setpokemonFijo(data);
       })
       .catch((e) => console.log(e));
+
+    asyncCall()
+      .then(() => console.log("funciona"))
+      .catch(() => console.log("no funciona error"));
   }, []);
 
   useEffect(() => {
@@ -131,9 +174,10 @@ const LandingModule = () => {
 */
 
   return (
-    <div className={`${style["container-2"]}`}>
-      {/* <NavBar />*/}
-      {/*
+    <LayoutHOC showFooter={false}>
+      <div className={`${style["container-2"]}`}>
+        {/* <NavBar />*/}
+        {/*
        <div className={`${style["grilla-responsive"]}`}>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14,15,16].map(
           (item: number, index: number) => {
@@ -146,105 +190,106 @@ const LandingModule = () => {
         )}
       </div>
               */}
-      <div className={`${style["navbar"]}`}>
-        <img
-          style={{ marginLeft: 32, height: 50, border: "1px solid" }}
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/2048px-Facebook_f_logo_%282019%29.svg.png"
-        />
+        <div className={`${style["navbar"]}`}>
+          <img
+            style={{ marginLeft: 32, height: 50, border: "1px solid" }}
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/2048px-Facebook_f_logo_%282019%29.svg.png"
+          />
 
-        {menu.map((item: string) => {
-          return (
-            <p
-              style={{ marginRight: 32 }}
-              key={item}
-              className={`${style["p-p"]}`}
-            >
-              {item}{" "}
-            </p>
-          );
-        })}
-      </div>
-      <div className={`${style["content"]}`}>
-        <Button text="cambiar label" onClick={setLabels} />
-        <Button text="contador" onClick={aumentar} />
-        <div style={{ display: "flex", flexDirection: "column", rowGap: 5 }}>
-          <a
-            target="_blank"
-            href="https://www.google.com/search?q=html+modal&tbm=isch&ved=2ahUKEwiC6tn9lKaBAxXxLd4AHQAyDFEQ2-cCegQIABAA&oq=html+modal&gs_lcp=CgNpbWcQAzIFCAAQgAQyBAgAEB4yBggAEAgQHjIGCAAQCBAeMgYIABAIEB4yBggAEAgQHjIHCAAQGBCABDIHCAAQGBCABDIHCAAQGBCABDIHCAAQGBCABDoECCMQJzoICAAQCBAeEBNQqgtYwBJg_hNoAHAAeACAAWmIAekEkgEDMC42mAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=6esAZcLRCfHb-LYPgOSwiAU&bih=1317&biw=1718#imgrc=9q-DUmugEUwOEM"
-          >
-            a gogle
-          </a>
-          <input
-            onChange={(event) => handleForm(event.target.value, 1)}
-            value={formUser.name}
-            placeholder="nombre"
-          />
-          <input
-            onChange={(event) => handleForm(event.target.value, 2)}
-            value={formUser.last}
-            placeholder="apellido"
-          />
-          <input
-            onChange={(event) => handleForm(event.target.value, 3)}
-            value={formUser.email}
-            placeholder="correo"
-          />
-          <input
-            onChange={(event) => handleForm(event.target.value, 4)}
-            value={formUser.age}
-            placeholder="contraseña"
-          />
-        </div>
-        <Button
-          text="login"
-          onClick={() => {
-            loginLogout();
-            setloged(getLoginLocal()!.isAutenticated);
-          }}
-        />
-
-        <h1> {upperAllFirst(userName)}</h1>
-        <h1> {oracion}</h1>
-        <h1> {upperAllFirst(oracion)} </h1>
-        <h1>forma 1: {upperAllWords(name)}</h1>
-        <h1>forma 1: {upperFirtCharacter(name)} </h1>
-        <h1>valor: {count}</h1>
-        <h1>etiqueta: {menu[menuLabel]}</h1>
-        <h1>sumatoria de valor: {sumatoria}</h1>
-        <div style={{ border: "2px solid" }}>
-          {pokemonFijo !== null && (
-            <>
-              <h1>{pokemonFijo.name} </h1>
-              <img src={pokemonFijo.sprites.front_default} />
-            </>
-          )}
-        </div>
-        <div style={{ display: "flex" }}>
-          {[1, 2, 3, 4, 5].map((item) => {
+          {menu.map((item: string) => {
             return (
-              <Fragment key={item}>
-                {pokemon !== null && (
-                  <div
-                    style={{
-                      border: "2px solid",
-                      width: 200,
-                      cursor: "pointer",
-                    }}
-                    onClick={() => navigate(`/pokemon-info/${pokemon.id}`)}
-                  >
-                    <h1>{pokemon.name} </h1>
-                    <img src={pokemon.sprites.front_default} />
-                  </div>
-                )}
-              </Fragment>
+              <p
+                style={{ marginRight: 32 }}
+                key={item}
+                className={`${style["p-p"]}`}
+              >
+                {item}{" "}
+              </p>
             );
           })}
         </div>
-        <h3>autenticado? :{loged ? "si" : "no"}</h3>
+        <div className={`${style["content"]}`}>
+          <Button text="cambiar label" onClick={setLabels} />
+          <Button text="contador" onClick={aumentar} />
+          <div style={{ display: "flex", flexDirection: "column", rowGap: 5 }}>
+            <a
+              target="_blank"
+              href="https://www.google.com/search?q=html+modal&tbm=isch&ved=2ahUKEwiC6tn9lKaBAxXxLd4AHQAyDFEQ2-cCegQIABAA&oq=html+modal&gs_lcp=CgNpbWcQAzIFCAAQgAQyBAgAEB4yBggAEAgQHjIGCAAQCBAeMgYIABAIEB4yBggAEAgQHjIHCAAQGBCABDIHCAAQGBCABDIHCAAQGBCABDIHCAAQGBCABDoECCMQJzoICAAQCBAeEBNQqgtYwBJg_hNoAHAAeACAAWmIAekEkgEDMC42mAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=6esAZcLRCfHb-LYPgOSwiAU&bih=1317&biw=1718#imgrc=9q-DUmugEUwOEM"
+            >
+              a gogle
+            </a>
+            <input
+              onChange={(event) => handleForm(event.target.value, 1)}
+              value={formUser.name}
+              placeholder="nombre"
+            />
+            <input
+              onChange={(event) => handleForm(event.target.value, 2)}
+              value={formUser.last}
+              placeholder="apellido"
+            />
+            <input
+              onChange={(event) => handleForm(event.target.value, 3)}
+              value={formUser.email}
+              placeholder="correo"
+            />
+            <input
+              onChange={(event) => handleForm(event.target.value, 4)}
+              value={formUser.age}
+              placeholder="contraseña"
+            />
+          </div>
+          <Button
+            text="login"
+            onClick={() => {
+              loginLogout();
+              setloged(getLoginLocal()!.isAutenticated);
+            }}
+          />
+
+          <h1> {upperAllFirst(userName)}</h1>
+          <h1> {oracion}</h1>
+          <h1> {upperAllFirst(oracion)} </h1>
+          <h1>forma 1: {upperAllWords(name)}</h1>
+          <h1>forma 1: {upperFirtCharacter(name)} </h1>
+          <h1>valor: {count}</h1>
+          <h1>etiqueta: {menu[menuLabel]}</h1>
+          <h1>sumatoria de valor: {sumatoria}</h1>
+          <div style={{ border: "2px solid" }}>
+            {pokemonFijo !== null && (
+              <>
+                <h1>{pokemonFijo.name} </h1>
+                <img src={pokemonFijo.sprites.front_default} />
+              </>
+            )}
+          </div>
+          <div style={{ display: "flex" }}>
+            {[1, 2, 3, 4, 5].map((item) => {
+              return (
+                <Fragment key={item}>
+                  {pokemon !== null && (
+                    <div
+                      style={{
+                        border: "2px solid",
+                        width: 200,
+                        cursor: "pointer",
+                      }}
+                      onClick={() => navigate(`/pokemon-info/${pokemon.id}`)}
+                    >
+                      <h1>{pokemon.name} </h1>
+                      <img src={pokemon.sprites.front_default} />
+                    </div>
+                  )}
+                </Fragment>
+              );
+            })}
+          </div>
+          <h3>autenticado? :{loged ? "si" : "no"}</h3>
+        </div>
+        <div className={`${style["footer"]}`}></div>
+        <div className={`${style["left-menu"]}`}></div>
       </div>
-      <div className={`${style["footer"]}`}></div>
-      <div className={`${style["left-menu"]}`}></div>
-    </div>
+    </LayoutHOC>
   );
 };
 
